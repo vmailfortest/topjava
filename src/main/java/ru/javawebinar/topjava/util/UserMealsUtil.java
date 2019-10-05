@@ -36,7 +36,7 @@ public class UserMealsUtil {
         mealList.forEach(x -> {
             if (TimeUtil.isBetween(x.getDateTime().toLocalTime(), startTime, endTime)) {
                 result.add(new UserMealWithExceed(x.getDateTime(), x.getDescription(), x.getCalories(),
-                        daysCalories.get(x.getDateTime().toLocalDate()) <= caloriesPerDay));
+                        daysCalories.get(x.getDateTime().toLocalDate()) < caloriesPerDay));
             }
         });
         return result;
@@ -48,7 +48,7 @@ public class UserMealsUtil {
 
         return mealList.stream()
                 .filter(x -> TimeUtil.isBetween(x.getDateTime().toLocalTime(), startTime, endTime))
-                .map(x -> new UserMealWithExceed(x.getDateTime(), x.getDescription(), x.getCalories(), daysCalories.get(x.getDateTime().toLocalDate()) <= caloriesPerDay))
+                .map(x -> new UserMealWithExceed(x.getDateTime(), x.getDescription(), x.getCalories(), daysCalories.get(x.getDateTime().toLocalDate()) < caloriesPerDay))
                 .collect(Collectors.toList());
     }
 }
