@@ -20,13 +20,21 @@ public class MealTo {
         this.excess = excess;
     }
 
-    public LocalDateTime getDateTime() { return dateTime; }
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
 
-    public String getDescription() { return description; }
+    public String getDescription() {
+        return description;
+    }
 
-    public int getCalories() { return calories; }
+    public int getCalories() {
+        return calories;
+    }
 
-    public Boolean getExcess() { return excess; }
+    public Boolean getExcess() {
+        return excess;
+    }
 
     @Override
     public String toString() {
