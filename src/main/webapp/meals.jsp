@@ -27,6 +27,8 @@
             <th style="width:200px">Дата/Время</th>
             <th style="width:200px">Описание</th>
             <th style="width:100px">Калории</th>
+            <th style="width:50px"></th>
+            <th style="width:50px"></th>
         </tr>
         <c:forEach items="${meals}" var="meal">
             <jsp:useBean id="meal" type="ru.javawebinar.topjava.model.MealTo"/>
@@ -37,8 +39,21 @@
                 <td>${meal.dateTime.format(formatter)}</td>
                 <td>${meal.description}</td>
                 <td>${meal.calories}</td>
+                <td><a href="meals?uuid=${meal.uuid}&action=edit">edit</a></td>
+                <td><a href="meals?uuid=${meal.uuid}&action=delete">delete</a></td>
             </tr>
         </c:forEach>
+        <tr>
+            <form method="post" action="meals" enctype="application/x-www-form-urlencoded">
+                <td><input type="text" name="date" size=30 value="" required></td>
+                <td><input type="text" name="desc" size=30 value="" required></td>
+                <td><input type="text" name="cal" size=30 value="" required></td>
+                <td><a href="meals">
+                    <button type="submit">Add</button>
+                </a></td>
+                <td></td>
+            </form>
+        </tr>
     </table>
 </section>
 
