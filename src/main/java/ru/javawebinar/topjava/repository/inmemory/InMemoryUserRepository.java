@@ -16,13 +16,13 @@ import java.util.stream.Collectors;
 @Repository
 public class InMemoryUserRepository implements UserRepository {
     private static final Logger log = LoggerFactory.getLogger(InMemoryUserRepository.class);
-    private Map<Integer, User> userRepository = new ConcurrentHashMap<>();
+    private Map<Integer, User> repository = new ConcurrentHashMap<>();
     private AtomicInteger userCounter = new AtomicInteger(0);
 
     @Override
     public boolean delete(int id) {
         log.info("delete {}", id);
-        return userRepository.remove(id) != null;
+        return repository.remove(id) != null;
     }
 
     @Override
@@ -31,23 +31,23 @@ public class InMemoryUserRepository implements UserRepository {
 
         if (user.isNew()) {
             user.setId(userCounter.incrementAndGet());
-            userRepository.put(user.getId(), user);
+            repository.put(user.getId(), user);
             return user;
         }
         // treat case: update, but not present in storage
-        return userRepository.computeIfPresent(user.getId(), (id, oldUser) -> user);
+        return repository.computeIfPresent(user.getId(), (id, oldUser) -> user);
     }
 
     @Override
     public User get(int id) {
         log.info("get {}", id);
-        return userRepository.get(id);
+        return repository.get(id);
     }
 
     @Override
     public List<User> getAll() {
         log.info("getAll");
-        return userRepository.values().stream()
+        return repository.values().stream()
                 .sorted(Comparator.comparing(User::getName).thenComparing(User::getEmail))
                 .collect(Collectors.toList());
     }
@@ -55,7 +55,7 @@ public class InMemoryUserRepository implements UserRepository {
     @Override
     public User getByEmail(String email) {
         log.info("getByEmail {}", email);
-        return userRepository.values().stream()
+        return repository.values().stream()
                 .filter(user -> user.getEmail().equals(email))
                 .findFirst().orElse(null);
     }
