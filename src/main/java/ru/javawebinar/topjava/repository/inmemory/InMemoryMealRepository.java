@@ -13,46 +13,37 @@ import java.util.stream.Collectors;
 
 @Repository
 public class InMemoryMealRepository implements MealRepository {
-    private Map<Integer, Meal> repository = new ConcurrentHashMap<>();
+    private Map<Integer, Map<Integer, Meal>> repository = new ConcurrentHashMap<>();
     private AtomicInteger counter = new AtomicInteger(0);
 
     {
-        MealsUtil.MEALS.forEach(this::save);
+        MealsUtil.MEALS.forEach(meal -> this.save(meal, meal.getUserId()));
     }
 
     @Override
-    public Meal save(Meal meal) {
+    public Meal save(Meal meal, int userId) {
         if (meal.isNew()) {
             meal.setId(counter.incrementAndGet());
-            repository.put(meal.getId(), meal);
+            repository.get(userId).put(meal.getId(), meal);
             return meal;
         }
         // treat case: update, but not present in storage
-        return repository.computeIfPresent(meal.getId(), (id, oldMeal) -> meal);
+        return repository.get(userId).computeIfPresent(meal.getId(), (id, oldMeal) -> meal);
     }
 
     @Override
     public boolean delete(int id, int userId) {
-        if (repository.get(id).getUserId() == userId) {
-            return repository.remove(id) != null;
-        } else {
-            return false;
-        }
+        return repository.get(userId).remove(id) != null;
     }
 
     @Override
     public Meal get(int id, int userId) {
-        if (repository.get(id).getUserId() == userId) {
-            return repository.get(id);
-        } else {
-            return null;
-        }
+        return repository.get(userId).get(id);
     }
 
     @Override
     public Collection<Meal> getAll(int userId) {
-        return repository.values().stream()
-                .filter(x -> x.getUserId() == userId)
+        return repository.get(userId).values().stream()
                 .sorted((o1, o2) -> o2.getDate().compareTo(o1.getDate())).collect(Collectors.toList());
     }
 }
