@@ -20,14 +20,14 @@ public class MealTestData {
     public static final Meal MEAL6 = new Meal(START_SEQ + 2, LocalDateTime.of(2015, Month.MAY, 30, 10, 00, 00), "Завтрак", 500);
 
     public static void assertMatch(Meal actual, Meal expected) {
-        assertThat(actual).isEqualToIgnoringGivenFields(expected, "datetime");
+        assertThat(actual).isEqualTo(expected);
     }
 
     public static void assertMatch(Iterable<Meal> actual, Meal... expected) {
         assertMatch(actual, Arrays.asList(expected));
     }
 
-    public static void assertMatch(Iterable<Meal> actual, Iterable<Meal> expected) {
-        assertThat(actual).usingElementComparatorIgnoringFields("id").isEqualTo(expected);
+    private static void assertMatch(Iterable<Meal> actual, Iterable<Meal> expected) {
+        assertThat(actual).isEqualTo(expected);
     }
 }
