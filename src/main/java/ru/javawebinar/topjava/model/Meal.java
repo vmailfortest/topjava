@@ -1,7 +1,5 @@
 package ru.javawebinar.topjava.model;
 
-import org.springframework.cglib.core.Local;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -15,6 +13,13 @@ public class Meal extends AbstractBaseEntity {
 
     public Meal() {
 
+    }
+
+    public Meal(Meal meal) {
+        this.id = meal.id;
+        this.dateTime = meal.dateTime;
+        this.description = meal.description;
+        this.calories = meal.calories;
     }
 
     public void setDateTime(LocalDateTime dateTime) {
