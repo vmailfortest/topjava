@@ -13,7 +13,6 @@ import ru.javawebinar.topjava.UserTestData;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.List;
@@ -53,8 +52,8 @@ public class MealServiceTest {
 
     @Test
     public void delete() throws Exception {
-        service.delete(MEAL6.getId(), UserTestData.USER_ID);
-        assertMatch(service.getAll(UserTestData.USER_ID), MEAL1, MEAL2, MEAL3, MEAL4, MEAL5);
+        service.delete(USER1_MEAL6.getId(), UserTestData.USER_ID);
+        assertMatch(service.getAll(UserTestData.USER_ID), USER1_MEAL1, USER1_MEAL2, USER1_MEAL3, USER1_MEAL4, USER1_MEAL5);
     }
 
     @Test(expected = NotFoundException.class)
@@ -64,8 +63,8 @@ public class MealServiceTest {
 
     @Test
     public void get() throws Exception {
-        Meal meal = service.get(MEAL6_ID, UserTestData.USER_ID);
-        assertMatch(meal, MEAL6);
+        Meal meal = service.get(USER1_MEAL6.getId(), UserTestData.USER_ID);
+        assertMatch(meal, USER1_MEAL6);
     }
 
     @Test(expected = NotFoundException.class)
@@ -75,34 +74,34 @@ public class MealServiceTest {
 
     @Test
     public void update() throws Exception {
-        Meal updated = new Meal(MEAL1);
+        Meal updated = new Meal(USER1_MEAL1);
         updated.setDateTime(LocalDateTime.of(2015, Month.JUNE, 30, 22, 00, 00));
         updated.setDescription("Торт");
         updated.setCalories(250);
         service.update(updated, UserTestData.USER_ID);
-        assertMatch(service.get(MEAL1.getId(), UserTestData.USER_ID), updated);
+        assertMatch(service.get(USER1_MEAL1.getId(), UserTestData.USER_ID), updated);
     }
 
     @Test
     public void getAll() throws Exception {
         List<Meal> all = service.getAll(UserTestData.USER_ID);
-        assertMatch(all, MEAL1, MEAL2, MEAL3, MEAL4, MEAL5, MEAL6);
+        assertMatch(all, USER1_MEAL1, USER1_MEAL2, USER1_MEAL3, USER1_MEAL4, USER1_MEAL5, USER1_MEAL6);
     }
 
     @Test
     public void getBetweenDates() throws Exception {
-        List<Meal> all = service.getBetweenDates(MEAL1.getDate(), MEAL1.getDate(), UserTestData.USER_ID);
-        assertMatch(all, MEAL1, MEAL2, MEAL3);
+        List<Meal> all = service.getBetweenDates(USER1_MEAL1.getDate(), USER1_MEAL1.getDate(), UserTestData.USER_ID);
+        assertMatch(all, USER1_MEAL1, USER1_MEAL2, USER1_MEAL3);
     }
 
     @Test(expected = NotFoundException.class)
     public void getByOtherUser() throws Exception {
-        service.get(MEAL2.getId(), UserTestData.ADMIN_ID);
+        service.get(USER1_MEAL2.getId(), UserTestData.ADMIN_ID);
     }
 
     @Test(expected = NotFoundException.class)
     public void updateByOtherUser() throws Exception {
-        Meal updated = new Meal(MEAL1);
+        Meal updated = new Meal(USER1_MEAL1);
         updated.setDateTime(LocalDateTime.of(2015, Month.JUNE, 30, 22, 00, 00));
         updated.setDescription("Торт");
         updated.setCalories(250);
@@ -111,6 +110,6 @@ public class MealServiceTest {
 
     @Test(expected = NotFoundException.class)
     public void deleteByOtherUser() throws Exception {
-        service.delete(MEAL6.getId(), UserTestData.ADMIN_ID);
+        service.delete(USER1_MEAL6.getId(), UserTestData.ADMIN_ID);
     }
 }
