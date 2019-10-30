@@ -124,7 +124,7 @@ public class MealServiceTest {
 
     @Test
     public void updateNotFound() throws Exception {
-//        exception.expect(NotFoundException.class);
+        exception.expect(NoResultException.class);
         service.update(MEAL1, ADMIN_ID);
     }
 
