@@ -4,6 +4,7 @@ import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.rules.Stopwatch;
 import org.junit.rules.TestName;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
@@ -23,6 +24,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import static ru.javawebinar.topjava.MealTestData.*;
 import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
@@ -36,8 +38,6 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class MealServiceTest {
     static Map<String, Long> tests = new HashMap();
-    Instant start;
-    Instant finish;
 
     @ClassRule
     public static TestWatcher classWatcher = new TestWatcher() {
@@ -48,30 +48,21 @@ public class MealServiceTest {
         @Override
         protected void finished(Description description) {
             System.out.println("TESTS EXECUTION RESULTS:");
-            for (Map.Entry element : tests.entrySet()) {
-                System.out.println(element.getKey() + " : " + element.getValue() + "ms");
-            }
+            String format = "| %1$-25s| %2$-8s|\n";
+            System.out.format(format, " NAME", " TIME");
+            tests.entrySet().forEach((entry) -> System.out.format(format, entry.getKey(), entry.getValue()) );
         }
     };
 
     @Rule
-    public TestWatcher watcher = new TestWatcher() {
+    public Stopwatch stopwatch = new Stopwatch() {
         @Override
-        protected void starting(Description description) {
-            start = Instant.now();
-        }
-
-        @Override
-        protected void finished(Description description) {
-            finish = Instant.now();
-            long duration = Duration.between(start, finish).toMillis();
-            tests.put(name.getMethodName(), duration);
-            System.out.println("Test execution time: " + duration);
+        protected void finished(long nanos, Description description) {
+            long durationInMs = TimeUnit.NANOSECONDS.toMillis(nanos);
+            System.out.println("Test execution time: " + durationInMs);
+            tests.put(description.getMethodName(), durationInMs);
         }
     };
-
-    @Rule
-    public final TestName name = new TestName();
 
     @Rule
     public final ExpectedException exception = ExpectedException.none();
@@ -133,7 +124,7 @@ public class MealServiceTest {
 
     @Test
     public void updateNotFound() throws Exception {
-        exception.expect(NotFoundException.class);
+//        exception.expect(NotFoundException.class);
         service.update(MEAL1, ADMIN_ID);
     }
 
