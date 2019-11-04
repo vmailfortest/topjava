@@ -4,5 +4,5 @@ import org.springframework.test.context.ActiveProfiles;
 
 //@ActiveProfiles({"hsqldb", "datajpa"})
 @ActiveProfiles({"postgres", "datajpa"})
-public class DataJpaUserServiceTest extends AbstractUserServiceTest {
+public class DataJpaUserServiceTest extends AbstractUserService {
 }

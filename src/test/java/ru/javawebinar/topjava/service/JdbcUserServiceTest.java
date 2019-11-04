@@ -4,5 +4,5 @@ import org.springframework.test.context.ActiveProfiles;
 
 //@ActiveProfiles({"hsqldb", "jdbc"})
 @ActiveProfiles({"postgres", "jdbc"})
-public class JdbcUserServiceTest extends AbstractUserServiceTest {
+public class JdbcUserServiceTest extends AbstractUserService {
 }
