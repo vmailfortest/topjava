@@ -12,5 +12,5 @@ import org.junit.runners.Suite;
         DataJpaMealServiceTest.class,
         DataJpaUserServiceTest.class,
 })
-public class AllServiceTest {
+public class AllService {
 }
