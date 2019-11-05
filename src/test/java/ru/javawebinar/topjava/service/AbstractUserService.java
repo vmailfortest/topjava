@@ -38,19 +38,22 @@ public class AbstractUserService extends BaseService {
         assertMatch(service.get(newId), newUser);
     }
 
-    @Test(expected = DataAccessException.class)
+    @Test
     public void duplicateMailCreate() throws Exception {
+        thrown.expect(DataAccessException.class);
         service.create(new User(null, "Duplicate", "user@yandex.ru", "newPass", Role.ROLE_USER));
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test
     public void delete() throws Exception {
+        thrown.expect(NotFoundException.class);
         service.delete(USER_ID);
         service.get(USER_ID);
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test
     public void deletedNotFound() throws Exception {
+        thrown.expect(NotFoundException.class);
         service.delete(1);
     }
 
@@ -60,8 +63,9 @@ public class AbstractUserService extends BaseService {
         assertMatch(user, USER);
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test
     public void getNotFound() throws Exception {
+        thrown.expect(NotFoundException.class);
         service.get(1);
     }
 
