@@ -32,6 +32,14 @@ class MealRestControllerTest extends AbstractControllerTest {
     private MealService mealService;
 
     @Test
+    void get() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL + MEAL1_ID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(contentJson(MEAL1));
+    }
+
+    @Test
     void getAll() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get(REST_URL))
                 .andExpect(status().isOk())
@@ -40,17 +48,29 @@ class MealRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void getBetween() throws Exception {
+    void getBetween2param() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get(
                 REST_URL
-                        + "?startDate=" + "2015-05-30T10:00:00"
-                        + "&startTime=" + LocalTime.of(10, 0, 0)
-                        + "&endDate=" + "2015-05-30T23:00:00"
-                        + "&endTime=" + LocalTime.of(13, 0, 0)
+                        + "?startDateTime=" + "2015-05-30T13:00:00"
+                        + "&endDateTime=" + "2015-05-30T23:00:00"
         ))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(contentJson(MealsUtil.getTos(List.of(MEAL2, MEAL1), MealsUtil.DEFAULT_CALORIES_PER_DAY)));
+                .andExpect(contentJson(MealsUtil.getTos(List.of(MEAL3, MEAL2), MealsUtil.DEFAULT_CALORIES_PER_DAY)));
+    }
+
+    @Test
+    void getBetween4param() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get(
+                REST_URL
+                        + "?startDate=" + "2015-05-30"
+                        + "&startTime=" + "13:00"
+                        + "&endDate=" + "2015-05-30"
+                        + "&endTime=" + "23:00"
+        ))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(contentJson(MealsUtil.getTos(List.of(MEAL3, MEAL2), MealsUtil.DEFAULT_CALORIES_PER_DAY)));
     }
 
     @Test
