@@ -8,7 +8,7 @@ import java.util.Locale;
 public class LocalTimeFormatter implements Formatter<LocalTime> {
     @Override
     public LocalTime parse(String time, Locale locale) {
-        return time != null && !time.isEmpty() ? LocalTime.parse(time) : null;
+        return DateTimeUtil.parseLocalTime(time);
     }
 
     @Override

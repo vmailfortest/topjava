@@ -8,7 +8,7 @@ import java.util.Locale;
 public class LocalDateFormatter implements Formatter<LocalDate> {
     @Override
     public LocalDate parse(String date, Locale locale) {
-        return date != null && !date.isEmpty() ? LocalDate.parse(date) : null;
+        return DateTimeUtil.parseLocalDate(date);
     }
 
     @Override

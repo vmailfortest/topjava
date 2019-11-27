@@ -44,7 +44,7 @@ class MealRestControllerTest extends AbstractControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get(REST_URL))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(contentJson(MealsUtil.getTos(MEALS, MealsUtil.DEFAULT_CALORIES_PER_DAY)));
+                .andExpect(contentJson(MealsUtil.getTos(MEALS, SecurityUtil.authUserCaloriesPerDay())));
     }
 
     @Test
@@ -56,7 +56,7 @@ class MealRestControllerTest extends AbstractControllerTest {
         ))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(contentJson(MealsUtil.getTos(List.of(MEAL3, MEAL2), MealsUtil.DEFAULT_CALORIES_PER_DAY)));
+                .andExpect(contentJson(MealsUtil.getTos(List.of(MEAL3, MEAL2), SecurityUtil.authUserCaloriesPerDay())));
     }
 
     @Test
@@ -70,7 +70,7 @@ class MealRestControllerTest extends AbstractControllerTest {
         ))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(contentJson(MealsUtil.getTos(List.of(MEAL3, MEAL2), MealsUtil.DEFAULT_CALORIES_PER_DAY)));
+                .andExpect(contentJson(MealsUtil.getTos(List.of(MEAL3, MEAL2), SecurityUtil.authUserCaloriesPerDay())));
     }
 
     @Test
