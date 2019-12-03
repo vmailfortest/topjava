@@ -49,7 +49,6 @@ public class MealAjaxController extends AbstractMealController {
                                @RequestParam String description,
                                @RequestParam int calories) {
 
-//        var test = LocalDateTime.parse(dateTime);
         Meal meal = new Meal(id, dateTime, description, calories);
         if (meal.isNew()) {
             super.create(meal);
@@ -59,10 +58,10 @@ public class MealAjaxController extends AbstractMealController {
     @Override
     @GetMapping(value = "/filter")
     public List<MealTo> getBetween(
-            @RequestParam @Nullable LocalDate startDate,
-            @RequestParam @Nullable LocalTime startTime,
-            @RequestParam @Nullable LocalDate endDate,
-            @RequestParam @Nullable LocalTime endTime) {
+            @RequestParam(required = false) @Nullable LocalDate startDate,
+            @RequestParam(required = false) @Nullable LocalTime startTime,
+            @RequestParam(required = false) @Nullable LocalDate endDate,
+            @RequestParam(required = false) @Nullable LocalTime endTime) {
         return super.getBetween(startDate, startTime, endDate, endTime);
     }
 }

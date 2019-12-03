@@ -34,3 +34,18 @@ $(function () {
         }
     );
 });
+
+function filter() {
+    $.ajax({
+        url: context.ajaxUrl + "filter",
+        data: {
+            "startDate": $("#startDate").val(),
+            "startTime": $("#startTime").val(),
+            "endDate": $("#endDate").val(),
+            "endTime": $("#endTime").val()
+        },
+        type: "GET"
+    }).done(function () {
+        updateTable();
+    });
+}
