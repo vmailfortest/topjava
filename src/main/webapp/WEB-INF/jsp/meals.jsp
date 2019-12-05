@@ -14,7 +14,7 @@
 
         <h3><spring:message code="meal.title"/></h3>
 
-    <form action="meals/filter">
+    <form id="filterForm">
         <dl>
             <dt><spring:message code="meal.startDate"/>:</dt>
             <dd><input type="datetime-local" name="startDate" id="startDate" value="${param.startDate}"></dd>
