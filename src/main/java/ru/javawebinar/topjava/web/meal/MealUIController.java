@@ -34,6 +34,8 @@ public class MealUIController extends AbstractMealController {
     public void createOrUpdate(MealTo mealTo) {
         if (mealTo.isNew()) {
             super.create(mealTo);
+        } else {
+            super.update(mealTo, mealTo.id());
         }
     }
 
