@@ -1,7 +1,9 @@
+var userAjaxUrl = "ajax/profile/meals/";
+
 function updateFilteredTable() {
     $.ajax({
         type: "GET",
-        url: "ajax/profile/meals/filter",
+        url: userAjaxUrl + "filter",
         data: $("#filter").serialize()
     }).done(updateTableByData);
 }
@@ -13,27 +15,33 @@ function clearFilter() {
 
 $(function () {
     makeEditable({
-        ajaxUrl: "ajax/profile/meals/",
+        ajaxUrl: userAjaxUrl,
         datatableApi: $("#datatable").DataTable({
+            "ajax": {
+                "url": userAjaxUrl,
+                "dataSrc": ""
+            },
             "paging": false,
             "info": true,
             "columns": [
                 {
-                    "data": "dateTime"
+                    "data": "dateTime",
                 },
                 {
                     "data": "description"
                 },
                 {
-                    "data": "calories"
+                    "data": "calories",
                 },
                 {
+                    "orderable": false,
                     "defaultContent": "Edit",
-                    "orderable": false
+                    "render": renderEditBtn
                 },
                 {
+                    "orderable": false,
                     "defaultContent": "Delete",
-                    "orderable": false
+                    "render": renderDeleteBtn
                 }
             ],
             "order": [
@@ -41,8 +49,19 @@ $(function () {
                     0,
                     "desc"
                 ]
-            ]
+            ],
+            "createdRow": function (row, data, dataIndex) {
+                // $(row).attr("data-mealExceed", false);
+                if (data.excess) {
+                    $(row).attr("data-mealExceed", true);
+                } else {
+                    $(row).attr("data-mealExceed", false);
+                }
+            }
         }),
-        updateTable: updateFilteredTable
+
+        updateTable: function () {
+            $.get(userAjaxUrl, updateTableByData);
+        }
     });
 });
