@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.to;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotBlank;
@@ -12,6 +13,7 @@ import java.util.Objects;
 public class MealTo extends BaseTo {
 
     @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private final LocalDateTime dateTime;
 
     @NotBlank
@@ -21,10 +23,10 @@ public class MealTo extends BaseTo {
     @Range(min = 10, max = 5000)
     private final int calories;
 
-    private final boolean excess;
+    private final Boolean excess;
 
     @ConstructorProperties({"id", "dateTime", "description", "calories", "excess"})
-    public MealTo(Integer id, LocalDateTime dateTime, String description, int calories, boolean excess) {
+    public MealTo(Integer id, LocalDateTime dateTime, String description, int calories, Boolean excess) {
         super(id);
         this.dateTime = dateTime;
         this.description = description;
@@ -44,7 +46,7 @@ public class MealTo extends BaseTo {
         return calories;
     }
 
-    public boolean isExcess() {
+    public Boolean isExcess() {
         return excess;
     }
 
