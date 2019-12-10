@@ -13,7 +13,12 @@ function clearFilter() {
     $.get("ajax/profile/meals/", updateTableByData);
 }
 
+function datetimepicker() {
+    $("#dateTime").datetimepicker();
+}
+
 $(function () {
+    datetimepicker();
     makeEditable({
         ajaxUrl: userAjaxUrl,
         datatableApi: $("#datatable").DataTable({
