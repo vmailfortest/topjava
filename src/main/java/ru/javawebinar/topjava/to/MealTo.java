@@ -13,13 +13,13 @@ import java.util.Objects;
 public class MealTo extends BaseTo {
 
     @NotNull
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private final LocalDateTime dateTime;
 
     @NotBlank
     @Size(min = 2, max = 120)
     private final String description;
 
+    @NotNull
     @Range(min = 10, max = 5000)
     private final int calories;
 
