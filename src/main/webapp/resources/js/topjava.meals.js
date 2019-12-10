@@ -57,7 +57,10 @@ $(function () {
                 } else {
                     $(row).attr("data-mealExceed", false);
                 }
-            }
+            },
+            columnDefs:[{targets:0, render:function(data){
+                    return moment(data).format('YYYY-MM-DD HH:mm');
+                }}]
         }),
 
         updateTable: function () {
