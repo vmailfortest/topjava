@@ -14,7 +14,9 @@ function clearFilter() {
 }
 
 function datetimepicker() {
-    $("#dateTime").datetimepicker();
+    $("#dateTime").datetimepicker({
+        format:'Y-m-d\\TH:i'
+    });
 }
 
 $(function () {
